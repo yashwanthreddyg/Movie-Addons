@@ -1,4 +1,4 @@
-import os
+import os,hashlib
 mediaExtensions = \
     ['264', '3G2', '3GP', '3GP2', '3GPP', '3GPP2', '3MM', '3P2',
     '60D', '787', '890', 'AAF', 'AEC', 'AEP', 'AEPX', 'AET',
@@ -56,7 +56,7 @@ mediaExtensions = \
     'VRO', 'VS4', 'VSE', 'VSP', 'VTT', 'W32', 'WCP', 'WEBM',
     'WFSP', 'WGI', 'WLMP', 'WM', 'WMD', 'WMMP', 'WMV', 'WMX',
     'WOT','WP3', 'WPL', 'WSVE', 'WTV', 'WVE', 'WVX', 'WXP',
-    'XEJ', 'XEL', 'XESC', 'XFL', 'XLMV', 'XML', 'XMV', 'XVID',
+    'XEJ', 'XEL', 'XESC', 'XFL', 'XLMV', 'XMV', 'XVID',
     'Y4M', 'YOG', 'YUV', 'ZEG', 'ZM1', 'ZM2', 'ZM3', 'ZMV']
 
 def getAllFileNames(folderPath,recursive = False):
@@ -71,7 +71,7 @@ def getFileNames(folderPath):
     files = []
     for entry in entries:
         absPath = os.path.abspath(os.path.join(folderPath,entry))
-        if not os.path.isdir(absPath):
+        if os.path.isfile(absPath) and not os.path.islink(absPath):
             files.append((entry,absPath))
     return files
 def getFileNamesRecursive(folderPath):
@@ -80,6 +80,8 @@ def getFileNamesRecursive(folderPath):
     files = []
     for entry in os.listdir(folderPath):
         absPath = os.path.abspath(os.path.join(folderPath,entry))
+        if entry in [".",".."] or os.path.islink(absPath):
+            continue
         if os.path.isdir(absPath):
             files.extend(getFileNamesRecursive(absPath))
         else:
@@ -92,3 +94,14 @@ def isMediaFileName(fileName):
     if fileExtension.upper() in mediaExtensions:
         return True
     return False
+
+
+
+def get_hash(name):
+    readsize = 64 * 1024
+    with open(name, 'rb') as f:
+        size = os.path.getsize(name)
+        data = f.read(readsize)
+        f.seek(-readsize, os.SEEK_END)
+        data += f.read(readsize)
+    return hashlib.md5(data).hexdigest()
