@@ -1,2 +1,4 @@
 node-modules/
 .vscode/
+*.pyc
+.idea/
