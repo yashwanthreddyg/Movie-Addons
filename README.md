@@ -3,7 +3,7 @@
 ### This pyton application lets you easily download additional info, posters and subtitles to all of your video files easily.
 
 ####The application can recursively collect all the video files in a folder and it's subfolders
-####Additional information about a movie include its title, year, director, ratings (imdb and rotten tomatoes), plot, etc. The info is saved as an '.minfo' file beside the original video file.
+####Additional information about a movie include its title, year, director, ratings (imdb and rotten tomatoes), plot, etc. The info is saved as a '.minfo'(text based) file beside the original video file.
 
 ####The application can also download posters as .jpg and subtitles as '.srt'
 ####Requirements
