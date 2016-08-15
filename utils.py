@@ -120,3 +120,17 @@ def get_hash(name):
 
 def getAscii(unicodeString):
     return unicodedata.normalize('NFKD', unicodeString).encode('ascii', 'ignore')
+
+def deleteMInfoFiles(rootPath):
+    for entry in os.listdir(rootPath):
+        absPath = os.path.abspath(os.path.join(rootPath,entry))
+        if os.path.isdir(absPath):
+            deleteMInfoFiles(absPath)
+        elif os.path.isfile(absPath):
+            ext = entry[entry.rfind('.') + 1:]
+            if '.' in entry and ext == "minfo":
+                try:
+                    os.remove(absPath)
+                except Exception as e:
+                    return False
+    return True

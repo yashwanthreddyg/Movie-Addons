@@ -124,12 +124,19 @@ if __name__ == "__main__":
     rec = False
     pos = False
     sub = False
+    rem = False
     parser = argparse.ArgumentParser()
     parser.add_argument("path", help="path of the directory or file")
     parser.add_argument("-r", help="finds all files in the folder recursively", action="store_true")
     parser.add_argument("-s", help="download subtitles for files", action="store_true")
     parser.add_argument("-p", help="download posters for files", action="store_true")
+    parser.add_argument("-d", help="delete all .minfo files recursively", action="store_true")
     args = parser.parse_args()
+
+    if args.d:
+        deleteMInfoFiles(unicode(args.path,'utf-8'))
+        print "done"
+        exit()
     if args.p:
         pos = True
     if args.s:

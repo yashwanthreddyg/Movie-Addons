@@ -26,6 +26,7 @@ optional arguments:
   -r          finds all files in the folder recursively
   -s          download subtitles for files
   -p          download posters for files
+  -d          delete all .minfo files recursively
 ```
 
 ####Example
